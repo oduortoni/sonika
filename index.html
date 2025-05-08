@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <audio id="audio" src="sugarcane.mp3"></audio>
+        <button id="play">Play</button>
+        <button id="pause">Pauset</button>
+        <button id="loop">Loop</button>
+    </div>
+    <script>
+        const audioElement = document.getElementById("audio");
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const track = audioCtx.createMediaElementSource(audioElement);
+        track.connect(audioCtx.destination);
+
+        const play = document.getElementById("play");
+        const pause = document.getElementById("pause");
+        const loop = document.getElementById("loop");
+
+        play.addEventListener('click', () => {
+            if(audioCtx.state == 'suspended'){
+                audioCtx.resume();
+            }
+            audioElement.play();
+        });
+
+        pause.addEventListener('click', () => {
+            audioElement.pause();
+        });
+
+        loop.addEventListener('click', () => {
+            audioElement.loop = !audioElement.loop;
+            alert('loop is ' + (audioElement.loop ? 'ON' : 'OFF'));
+        });
+    </script>
+</body>
+</html>
