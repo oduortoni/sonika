@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sonika</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+</head>
+<body>
+    <div class="container">
+        <div class="player-header">
+            <h1>Music Player</h1>
+        </div>
+        
+        <div class="player-wrapper">
+            <!-- Audio Element -->
+            <audio id="audio"></audio>
+            
+            <!-- Player Controls -->
+            <div class="player-controls">
+                <!-- Visualizer -->
+                <div class="visualizer">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <span id="current-time" class="time">0:00</span>
+                    <input type="range" id="progress" min="0" max="100" value="0" step="0.1">
+                    <span id="duration" class="time">0:00</span>
+                </div>
+                
+                <!-- Control Buttons -->
+                <div class="control-buttons">
+                    <button id="prev-btn">⏮</button>
+                    <button id="play-btn">
+                        <span id="play-icon">▶</span>
+                        <span id="pause-icon" style="display:none;">⏸</span>
+                    </button>
+                    <button id="next-btn">⏭</button>
+                    <button id="loop-btn">🔁</button>
+                    <button id="volume-btn">🔊</button>
+                </div>
+            </div>
+            
+            <!-- Playlist -->
+            <div class="playlist-container">
+                <div class="playlist-header">
+                    <h2>Playlist</h2>
+                </div>
+                <ul id="playlist">
+                    <!-- Playlist items will be added here dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
