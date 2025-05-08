@@ -86,7 +86,7 @@ class MusicPlayer {
         await this.loadTracks();
         
         // Only proceed if we actually got tracks
-        if (this.tracks && this.tracks.songs.length > 0) {
+        if (this.tracks && this.tracks.songs && this.tracks.songs.length > 0) {
           this.buildPlaylist();
           
           // Load the first track
@@ -127,6 +127,7 @@ class MusicPlayer {
         }
         
         const tracksData = await response.json();
+        console.log('Tracks loaded:', tracksData);
         
         // Store the tracks in the class property
         this.tracks = tracksData;
@@ -142,7 +143,7 @@ class MusicPlayer {
       // Clear existing playlist
       this.playlistEl.innerHTML = '';
             
-      if (this.tracks.songs.length === 0) {
+      if (!this.tracks.songs || this.tracks.songs.length === 0) {
         console.warn('Cannot build playlist: No tracks available');
         const emptyMessage = document.createElement('li');
         emptyMessage.textContent = 'No tracks available';
@@ -152,8 +153,7 @@ class MusicPlayer {
       }
       
       // Create and add track elements
-      for(let index=0; index < this.tracks.songs.length; index++) {
-        let track = this.tracks.songs[index];
+      this.tracks.songs.forEach((track, index) => {
         const li = document.createElement('li');
         li.textContent = track;
         li.className = 'playlist-item';
@@ -169,13 +169,13 @@ class MusicPlayer {
         });
         
         this.playlistEl.appendChild(li);
-      }      
+      });      
     }
     
     // Load a specific track
     loadTrack(index) {
       if (!this.tracks.songs || !this.tracks.songs[index]) {
-        console.error('Cannot load track: Invalid track index or no tracks available: ', index);
+        console.error('Cannot load track: Invalid track index or no tracks available:', index);
         return;
       }
       
@@ -250,18 +250,18 @@ class MusicPlayer {
     
     // Play next track
     playNext() {
-      if (this.tracks.length === 0) return;
+      if (!this.tracks.songs || this.tracks.songs.length === 0) return;
       
-      this.currentTrackIndex = (this.currentTrackIndex + 1) % this.tracks.length;
+      this.currentTrackIndex = (this.currentTrackIndex + 1) % this.tracks.songs.length;
       this.loadTrack(this.currentTrackIndex);
       this.playTrack();
     }
     
     // Play previous track
     playPrev() {
-      if (this.tracks.length === 0) return;
+      if (!this.tracks.songs || this.tracks.songs.length === 0) return;
       
-      this.currentTrackIndex = (this.currentTrackIndex - 1 + this.tracks.length) % this.tracks.length;
+      this.currentTrackIndex = (this.currentTrackIndex - 1 + this.tracks.songs.length) % this.tracks.songs.length;
       this.loadTrack(this.currentTrackIndex);
       this.playTrack();
     }
@@ -275,9 +275,8 @@ class MusicPlayer {
       this.isPlaying = false;
       this.visualizerBars.forEach(bar => bar.style.animationPlayState = 'paused');
       
-      // Auto-play next track option
-      // Uncomment to enable auto-play next track
-      // this.playNext();
+      // Auto-play next track
+      this.playNext();
     }
     
     // Highlight active track in playlist
@@ -299,19 +298,6 @@ class MusicPlayer {
       const min = Math.floor(time / 60);
       const sec = Math.floor(time % 60).toString().padStart(2, '0');
       return `${min}:${sec}`;
-    }
-    
-    // Test function for local development
-    testPlaylistManually() {
-      const mockTracks = [
-        'Song 1.mp3',
-        'Song 2.mp3',
-        'Song 3.mp3'
-      ];
-      
-      this.tracks = mockTracks;
-      this.buildPlaylist();
-      this.loadTrack(0);
     }
   }
   
@@ -336,5 +322,3 @@ class MusicPlayer {
       container.prepend(errorMsg);
     }
   });
-
-  environment = "production";
