@@ -1,2 +1,36 @@
-tunes/
-*.mp3
+# Rust build artifacts
+/target
+**/*.rs.bk
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Node-related (if you use npm/yarn for frontend)
+/node_modules
+package-lock.json
+yarn.lock
+
+# Frontend build (optional)
+/dist
+/build
+
+# Audio files (if you don’t want to track them)
+tunes/*.mp3
+
+# Secrets or config
+.env
+.env.*
+
+# Cargo specific
+Cargo.lock
